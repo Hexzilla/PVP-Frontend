@@ -23,6 +23,7 @@ import { ContactsPopover } from './contacts-popover';
 import { ContentSearchDialog } from './content-search-dialog';
 import { NotificationsPopover } from './notifications-popover';
 import { LanguagePopover } from './language-popover';
+import useWallet from '../../hooks/use-wallet';
 
 const languages = {
   en: '/static/icons/uk_flag.svg',
@@ -247,6 +248,12 @@ const AccountButton = () => {
 
 export const DashboardNavbar = (props) => {
   const { onOpenSidebar, ...other } = props;
+  const { walletAddress, connectWallet, disconnectWallet } = useWallet();
+
+  const handleConnectWallet = (e) => {
+    e.preventDefault();
+    !walletAddress ? connectWallet() : disconnectWallet();
+  }
 
   return (
     <>
@@ -281,8 +288,9 @@ export const DashboardNavbar = (props) => {
             sx={{ ml: 4 }}
             type="submit"
             variant="contained"
+            onClick={handleConnectWallet}
           >
-            Connect Wallet
+            {walletAddress? 'Connect Wallet' : 'Disconnect Wallet'}
           </Button>
         </Toolbar>
       </DashboardNavbarRoot>

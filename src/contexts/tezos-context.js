@@ -1,10 +1,28 @@
 import React, { useMemo, useState } from "react";
+import PropTypes from 'prop-types';
 import { TezosToolkit } from "@taquito/taquito";
 import { BeaconWallet } from "@taquito/beacon-wallet";
 import { BeaconEvent, defaultEventCallbacks } from "@airgap/beacon-sdk";
-import { TezosContext } from "./Context";
 
-function TezosProvider({ options, children }) {
+const initialState = {
+  tezos: null,
+  wallet: null,
+  options: null,
+  walletAddress: null,
+  publicKey: null,
+};
+
+const TezosContext = React.createContext({
+  ...initialState,
+  setWalletAddress: (address) => Promise.resolve(),
+  setPublicKey: (publicKey) => Promise.resolve(),
+});
+
+if (process.env.NODE_ENV !== "production") {
+  TezosContext.displayName = "TezosContext";
+}
+
+export const TezosProvider = ({ options, children }) => {
   const [walletAddress, setWalletAddress] = useState(null);
   const [publicKey, setPublicKey] = useState(null);
 
@@ -47,4 +65,6 @@ function TezosProvider({ options, children }) {
   );
 }
 
-export default TezosProvider;
+TezosProvider.propTypes = {
+  children: PropTypes.node.isRequired
+};

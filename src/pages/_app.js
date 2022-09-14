@@ -14,7 +14,7 @@ import { SettingsButton } from '../components/settings-button';
 import { SplashScreen } from '../components/splash-screen';
 import { SettingsConsumer, SettingsProvider } from '../contexts/settings-context';
 import { AuthConsumer, AuthProvider } from '../contexts/jwt-context';
-import { TezosProvider } from './contexts/tezos-context';
+import { TezosProvider } from '../contexts/tezos-context';
 import { gtmConfig } from '../config';
 import { gtm } from '../lib/gtm';
 import { store } from '../store';

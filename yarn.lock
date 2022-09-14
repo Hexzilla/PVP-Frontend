@@ -2,6 +2,22 @@
 # yarn lockfile v1
 
 
+"@airgap/beacon-blockchain-substrate@^3.1.4":
+  "integrity" "sha512-3282+3TZd/FvfDvotjkh8tutVP9xwX4kJD4S8QfkhJYnd5sqwcQSkkkpgMnfyZV9MKJlab9l1i1CkjXmfeeqCA=="
+  "resolved" "https://registry.npmjs.org/@airgap/beacon-blockchain-substrate/-/beacon-blockchain-substrate-3.1.4.tgz"
+  "version" "3.1.4"
+  dependencies:
+    "@airgap/beacon-types" "^3.1.4"
+    "@airgap/beacon-ui" "^3.1.4"
+
+"@airgap/beacon-blockchain-tezos@^3.1.4":
+  "integrity" "sha512-W2ARfEWWCFUJcMT8HMDYYl+oHpbwN23SrTJpaS7/ycAKUrDYYSRhuPBczMA/Q3hhOsQKTXdNg48m9xI091Bg/Q=="
+  "resolved" "https://registry.npmjs.org/@airgap/beacon-blockchain-tezos/-/beacon-blockchain-tezos-3.1.4.tgz"
+  "version" "3.1.4"
+  dependencies:
+    "@airgap/beacon-types" "^3.1.4"
+    "@airgap/beacon-ui" "^3.1.4"
+
 "@airgap/beacon-core@^3.1.4":
   "integrity" "sha512-GpSFjQL+larOigCRKtdEE4Dhl3cWOl0GP3tjVI6WSCExEAVKGE8EW37NDIgRDJwANFPAHt427wVcrk6slXqmbQ=="
   "resolved" "https://registry.npmjs.org/@airgap/beacon-core/-/beacon-core-3.1.4.tgz"
@@ -23,6 +39,22 @@
     "@airgap/beacon-transport-postmessage" "^3.1.4"
     "@airgap/beacon-ui" "^3.1.4"
     "qrcode-generator" "1.4.4"
+
+"@airgap/beacon-sdk@^3.1.4":
+  "integrity" "sha512-lCB1hYFztDVP+C3ib6V/yrMtV2lPNFjNFTaHyxXqCjUt9Zs/ln4UhaYFOzIvzF4hXecMziTIDJVD9ClqnM2VMw=="
+  "resolved" "https://registry.npmjs.org/@airgap/beacon-sdk/-/beacon-sdk-3.1.4.tgz"
+  "version" "3.1.4"
+  dependencies:
+    "@airgap/beacon-blockchain-substrate" "^3.1.4"
+    "@airgap/beacon-blockchain-tezos" "^3.1.4"
+    "@airgap/beacon-core" "^3.1.4"
+    "@airgap/beacon-dapp" "^3.1.4"
+    "@airgap/beacon-transport-matrix" "^3.1.4"
+    "@airgap/beacon-transport-postmessage" "^3.1.4"
+    "@airgap/beacon-types" "^3.1.4"
+    "@airgap/beacon-ui" "^3.1.4"
+    "@airgap/beacon-utils" "^3.1.4"
+    "@airgap/beacon-wallet" "^3.1.4"
 
 "@airgap/beacon-transport-matrix@^3.1.4":
   "integrity" "sha512-IvZnylEqjXyB9JWvpgnSRMom9C5thK5JB88joL2/q24JI73MXTzBh50/GVNfwAat6Ct+ftbn36j17Kh5O/y4wg=="
@@ -69,6 +101,15 @@
     "@types/libsodium-wrappers" "0.7.9"
     "bs58check" "2.1.2"
     "libsodium-wrappers" "0.7.9"
+
+"@airgap/beacon-wallet@^3.1.4":
+  "integrity" "sha512-N9esRbfuddsjD+TunJZscblTCWe2diQSefZDXZ6zYksU9OU1KLWb+lzSrytq3X6jZrNDLI9GmgBZQu0HDrvc6w=="
+  "resolved" "https://registry.npmjs.org/@airgap/beacon-wallet/-/beacon-wallet-3.1.4.tgz"
+  "version" "3.1.4"
+  dependencies:
+    "@airgap/beacon-core" "^3.1.4"
+    "@airgap/beacon-transport-matrix" "^3.1.4"
+    "@airgap/beacon-transport-postmessage" "^3.1.4"
 
 "@ampproject/remapping@^2.1.0":
   "version" "2.2.0"
