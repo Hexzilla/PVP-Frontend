@@ -67,7 +67,7 @@ export const DashboardNavbar = (props) => {
             variant="contained"
             onClick={handleConnectWallet}
           >
-            {walletAddress? 'Connect Wallet' : 'Disconnect Wallet'}
+            {!walletAddress? 'Connect Wallet' : 'Disconnect Wallet'}
           </Button>
         </Toolbar>
       </DashboardNavbarRoot>

@@ -11,7 +11,11 @@ const options = {
   rpc: "https://jakartanet.tezos.marigold.dev",
 } as NetworkOptions;
 
-function MyApp({ Component, pageProps }: AppProps) {
+const App = (props: AppProps) => {
+  const { Component, pageProps } = props;
+
+  const getLayout = Component['getLayout'] ?? ((page) => page);
+
   return (
     <ThemeProvider
       theme={createTheme({
@@ -21,10 +25,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       })}
     >
       <TezosProvider options={options}>
-        <Component {...pageProps} />
+        {getLayout(<Component {...pageProps} />)}
       </TezosProvider>
     </ThemeProvider>
   );
 }
 
-export default MyApp;
+export default App;
