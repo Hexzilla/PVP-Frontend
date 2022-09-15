@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import { Box, Card, CardContent, Container } from "@mui/material";
+import { Box, Button, Card, CardContent, Container } from "@mui/material";
 import { Unity, useUnityContext } from "react-unity-webgl";
 import { DashboardLayout } from "../../components/play/dashboard-layout";
 //import { WidgetPreviewer } from "../../components/widget-previewer";
@@ -26,6 +26,10 @@ const Play = () => {
       // setDisplayBanner(false);
     }
   }, []);
+
+  const handleJoin = () => {
+
+  }
 
   return (
     <>
@@ -53,7 +57,15 @@ const Play = () => {
             </CardContent>
           </Card>
           <Card sx={{ mt: 3 }}>
-            <CardContent></CardContent>
+            <CardContent>
+              <Button
+                type="submit"
+                variant="contained"
+                onClick={handleJoin}
+              >
+                Sign & Join
+              </Button>
+            </CardContent>
           </Card>
           <Card sx={{ mt: 3 }}>
             <CardContent>
