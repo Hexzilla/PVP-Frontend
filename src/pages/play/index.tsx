@@ -63,7 +63,7 @@ const Play = () => {
                 variant="contained"
                 onClick={handleJoin}
               >
-                Sign & Join
+                Sign & Join 
               </Button>
             </CardContent>
           </Card>
