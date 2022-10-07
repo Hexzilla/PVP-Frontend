@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { Box, Button, Card, CardContent, Container } from "@mui/material";
+import { RequestSignPayloadInput, SigningType } from "@airgap/beacon-sdk";
+import { char2Bytes } from "@taquito/utils";
+import { io } from "socket.io-client";
 import { Unity, useUnityContext } from "react-unity-webgl";
 import { DashboardLayout } from "../../components/play/dashboard-layout";
-//import { WidgetPreviewer } from "../../components/widget-previewer";
-//import { Table6 } from "../../components/widgets/tables/table-6";
+import useWallet from "../../hooks/useWallet";
+
+const socket = io("http://localhost:8000");
 
 const unityConfig = {
   loaderUrl: "Build/public.loader.js",
@@ -16,20 +20,73 @@ const unityConfig = {
 const Play = () => {
   const unityContext = useUnityContext(unityConfig);
   const { sendMessage, addEventListener, removeEventListener } = unityContext;
+  const { walletAddress, requestSignPayload } = useWallet();
   const [displayBanner, setDisplayBanner] = useState(true);
+  const [isConnected, setIsConnected] = useState(socket.connected);
 
   useEffect(() => {
     // Restore the persistent state from local/session storage
     const value = globalThis.sessionStorage.getItem("dismiss-banner");
-
     if (value === "true") {
       // setDisplayBanner(false);
     }
   }, []);
 
-  const handleJoin = () => {
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("connected");
+      setIsConnected(true);
+    });
 
-  }
+    socket.on("disconnect", () => {
+      console.log("disconnected");
+      setIsConnected(false);
+    });
+
+    socket.on("PONG", () => {
+      console.log("PONG");
+    });
+
+    socket.connect();
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("PONG");
+    };
+  }, []);
+
+  const sendPing = () => {
+    socket.emit("PING");
+  };
+
+  const handleJoin = async () => {
+    sendPing();
+
+    // The data to format
+    const dappUrl = "Pixltez.app";
+    const ISO8601formatedTimestamp = new Date().toISOString();
+    const input = "Hello world!";
+
+    // The full string
+    const formattedInput: string = [
+      "Tezos Signed Message:",
+      dappUrl,
+      ISO8601formatedTimestamp,
+      input,
+    ].join(" ");
+
+    const bytes = char2Bytes(formattedInput);
+    const payloadBytes = "05" + "0100" + char2Bytes("" + bytes.length) + bytes;
+
+    const payload: RequestSignPayloadInput = {
+      signingType: SigningType.MICHELINE,
+      payload: payloadBytes,
+      sourceAddress: walletAddress,
+    };
+    const signedPayload = await requestSignPayload(payload);
+    console.log("signedPayload", signedPayload);
+  };
 
   return (
     <>
@@ -58,12 +115,8 @@ const Play = () => {
           </Card>
           <Card sx={{ mt: 3 }}>
             <CardContent>
-              <Button
-                type="submit"
-                variant="contained"
-                onClick={handleJoin}
-              >
-                Sign & Join
+              <Button type="submit" variant="contained" onClick={handleJoin}>
+                {"Sign & Join"}
               </Button>
             </CardContent>
           </Card>
