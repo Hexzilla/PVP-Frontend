@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { Box, Button, Card, CardContent, Container } from "@mui/material";
-import { RequestSignPayloadInput, SigningType } from "@airgap/beacon-sdk";
-import { char2Bytes } from "@taquito/utils";
 import { io } from "socket.io-client";
 import { Unity, useUnityContext } from "react-unity-webgl";
 import { DashboardLayout } from "../../components/play/dashboard-layout";
-import useWallet from "../../hooks/useWallet";
+import useWallet from "../../hooks/usePhantom";
 import useInterval from "hooks/useInterval";
 
 const socket = io("http://localhost:8000");
@@ -21,7 +19,6 @@ const unityConfig = {
 const Play = () => {
   const unityContext = useUnityContext(unityConfig);
   const { sendMessage, addEventListener, removeEventListener } = unityContext;
-  const { walletAddress, requestSignPayload } = useWallet();
   const [displayBanner, setDisplayBanner] = useState(true);
   const [isConnected, setIsConnected] = useState(socket.connected);
 
@@ -66,7 +63,7 @@ const Play = () => {
   }, 5000);
 
   const handleJoin = async () => {
-    // The data to format
+    /*// The data to format
     const dappUrl = "Pixltez.app";
     const ISO8601formatedTimestamp = new Date().toISOString();
     const input = "Hello world!";
@@ -88,13 +85,13 @@ const Play = () => {
       sourceAddress: walletAddress,
     };
     const signedPayload = await requestSignPayload(payload);
-    console.log("signedPayload", signedPayload);
+    console.log("signedPayload", signedPayload);*/
   };
 
   return (
     <>
       <Head>
-        <title>Dashboard: Overview | Material Kit Pro</title>
+        <title>Play</title>
       </Head>
       <Box
         component="main"

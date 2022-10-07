@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { TezosContext } from "../contexts/TezosContext/Context";
-import type { TezosContextValue } from "../contexts/TezosContext/Context";
+import { PhantomContext } from "../contexts/PhantomContext/Context";
+import type { PhantomContextValue } from "../contexts/PhantomContext/Context";
 
 /**
  * A hook to access the value of the `TezosContext`. This is a low-level
@@ -18,12 +18,12 @@ import type { TezosContextValue } from "../contexts/TezosContext/Context";
  *   return <div>{store.getState()}</div>
  * }
  */
-export function useTezosContext(): TezosContextValue | null {
-  const contextValue = useContext(TezosContext);
+export function usePhantomContext(): PhantomContextValue | null {
+  const contextValue = useContext(PhantomContext);
 
   if (process.env.NODE_ENV !== "production" && !contextValue) {
     throw new Error(
-      "could not find react-redux context value; please ensure the component is wrapped in a <TezosProvider>"
+      "could not find react-redux context value; please ensure the component is wrapped in a <PhantomProvider>"
     );
   }
 

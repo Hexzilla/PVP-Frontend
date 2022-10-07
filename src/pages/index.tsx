@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import useWallet from '../hooks/useWallet';
+import useWallet from '../hooks/usePhantom';
 
 export default function Home() {
   const { walletAddress, connectWallet, disconnectWallet } = useWallet();

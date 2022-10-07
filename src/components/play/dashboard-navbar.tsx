@@ -7,7 +7,7 @@ import {
   Toolbar} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Menu as MenuIcon } from '../../icons/menu';
-import useWallet from '../../hooks/useWallet';
+import usePhantom from '../../hooks/usePhantom';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -26,7 +26,7 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 
 export const DashboardNavbar = (props) => {
   const { onOpenSidebar, ...other } = props;
-  const { walletAddress, connectWallet, disconnectWallet } = useWallet();
+  const { walletAddress, connectWallet, disconnectWallet } = usePhantom();
 
   const handleConnectWallet = (e) => {
     e.preventDefault();

@@ -1,15 +1,10 @@
 import React from "react";
 import { AppProps } from "next/app";
 import { ThemeProvider } from '@mui/material/styles';
+import { ToastContainer } from 'react-toastify';
 import "../styles/globals.css";
 import { createTheme } from '../theme';
-import { NetworkOptions, TezosProvider } from "../contexts/TezosContext";
-
-const options = {
-  appName: "PiXL",
-  networkType: "jakartanet",
-  rpc: "https://jakartanet.tezos.marigold.dev",
-} as NetworkOptions;
+import { PhantomProvider } from "../contexts/PhantomContext";
 
 const App = (props: AppProps) => {
   const { Component, pageProps } = props;
@@ -24,9 +19,10 @@ const App = (props: AppProps) => {
         mode: 'dark',
       })}
     >
-      <TezosProvider options={options}>
+      <ToastContainer position="top-center" hideProgressBar/>
+      <PhantomProvider>
         {getLayout(<Component {...pageProps} />)}
-      </TezosProvider>
+      </PhantomProvider>
     </ThemeProvider>
   );
 }
