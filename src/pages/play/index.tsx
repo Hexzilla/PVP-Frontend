@@ -7,6 +7,7 @@ import { io } from "socket.io-client";
 import { Unity, useUnityContext } from "react-unity-webgl";
 import { DashboardLayout } from "../../components/play/dashboard-layout";
 import useWallet from "../../hooks/useWallet";
+import useInterval from "hooks/useInterval";
 
 const socket = io("http://localhost:8000");
 
@@ -60,9 +61,11 @@ const Play = () => {
     socket.emit("PING");
   };
 
-  const handleJoin = async () => {
+  useInterval(() => {
     sendPing();
+  }, 5000);
 
+  const handleJoin = async () => {
     // The data to format
     const dappUrl = "Pixltez.app";
     const ISO8601formatedTimestamp = new Date().toISOString();
