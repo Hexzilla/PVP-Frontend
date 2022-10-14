@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
+import bs58 from "bs58";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Box, Button, Card, CardContent, Container } from "@mui/material";
 import { io } from "socket.io-client";
@@ -76,7 +77,7 @@ const Play = () => {
       }
 
       const encoder = new TextEncoder();
-      const message = JSON.stringify({
+      const plainText = JSON.stringify({
         message: "Join Room",
         address: publicKey.toString(),
         date: new Date(),
@@ -87,9 +88,19 @@ const Play = () => {
         return;
       }
 
-      const signed = await wallet.signMessage(encoder.encode(message));
-      console.log("signed", signed);
-      
+      const signed = await wallet.signMessage(encoder.encode(plainText));
+      console.log("signature", signed);
+
+      const signature = bs58.encode(signed);
+      console.log("signed_message", signature);
+
+      if (isConnected) {
+        const message = {
+          address: publicKey.toString(),
+          signature,
+        };
+        socket?.emit("JOIN", message);
+      }
     } catch (err) {
       console.error(err);
     }
