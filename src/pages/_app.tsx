@@ -2,9 +2,12 @@ import React from "react";
 import { AppProps } from "next/app";
 import { ThemeProvider } from '@mui/material/styles';
 import { ToastContainer } from 'react-toastify';
+import "@solana/wallet-adapter-ant-design/styles.css";
+import "@solana/wallet-adapter-react-ui/styles.css";
 import "../styles/globals.css";
 import { createTheme } from '../theme';
-import { PhantomProvider } from "../contexts/PhantomContext";
+import { ContextProvider } from "../contexts/ContextProvider";
+
 
 const App = (props: AppProps) => {
   const { Component, pageProps } = props;
@@ -20,9 +23,9 @@ const App = (props: AppProps) => {
       })}
     >
       <ToastContainer position="top-center" hideProgressBar/>
-      <PhantomProvider>
+      <ContextProvider>
         {getLayout(<Component {...pageProps} />)}
-      </PhantomProvider>
+      </ContextProvider>
     </ThemeProvider>
   );
 }

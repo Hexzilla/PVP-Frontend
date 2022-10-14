@@ -6,8 +6,9 @@ import {
   IconButton,
   Toolbar} from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { Menu as MenuIcon } from '../../icons/menu';
-import usePhantom from '../../hooks/usePhantom';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -26,12 +27,8 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 
 export const DashboardNavbar = (props) => {
   const { onOpenSidebar, ...other } = props;
-  const { walletAddress, connectWallet, disconnectWallet } = usePhantom();
-
-  const handleConnectWallet = (e) => {
-    e.preventDefault();
-    !walletAddress ? connectWallet() : disconnectWallet();
-  }
+  const { connection } = useConnection();
+  const { publicKey, sendTransaction } = useWallet();
 
   return (
     <>
@@ -61,14 +58,15 @@ export const DashboardNavbar = (props) => {
           <ContentSearchButton />
           <ContactsButton />
           <NotificationsButton /> */}
-          <Button
+          {/* <Button
             sx={{ ml: 4 }}
             type="submit"
             variant="contained"
             onClick={handleConnectWallet}
           >
             {!walletAddress? 'Connect Wallet' : 'Disconnect Wallet'}
-          </Button>
+          </Button> */}
+          <WalletMultiButton />
         </Toolbar>
       </DashboardNavbarRoot>
     </>

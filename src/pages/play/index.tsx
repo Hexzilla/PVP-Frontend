@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { Box, Button, Card, CardContent, Container } from "@mui/material";
 import { io } from "socket.io-client";
 import { Unity, useUnityContext } from "react-unity-webgl";
 import { DashboardLayout } from "../../components/play/dashboard-layout";
-import useWallet from "../../hooks/usePhantom";
 import useInterval from "hooks/useInterval";
 
 const socket = io("http://localhost:8000");
@@ -17,6 +17,7 @@ const unityConfig = {
 };
 
 const Play = () => {
+  const wallet = useWallet();
   const unityContext = useUnityContext(unityConfig);
   const { sendMessage, addEventListener, removeEventListener } = unityContext;
   const [displayBanner, setDisplayBanner] = useState(true);
@@ -86,6 +87,23 @@ const Play = () => {
     };
     const signedPayload = await requestSignPayload(payload);
     console.log("signedPayload", signedPayload);*/
+
+    const publicKey = wallet.publicKey;
+		if (!publicKey) {
+      console.log("No key associated with the wallet");
+			throw new Error("No key associated with the wallet");
+		}
+
+    const encoder = new TextEncoder();
+		const message = publicKey.toString();
+
+    if (!wallet.signMessage) {
+      console.log("Unable to sign using this wallet");
+			throw new Error("Unable to sign using this wallet");
+		}
+
+		const signed = wallet.signMessage(encoder.encode(message));
+    console.log('signed', signed)
   };
 
   return (
@@ -103,14 +121,14 @@ const Play = () => {
         <Container maxWidth="lg">
           <Card>
             <CardContent sx={{ display: "flex", justifyContent: "center" }}>
-              <Unity
+              {/* <Unity
                 unityProvider={unityContext.unityProvider}
                 style={{
                   height: 540,
                   width: 950,
                   background: "#555",
                 }}
-              />
+              /> */}
             </CardContent>
           </Card>
           <Card sx={{ mt: 3 }}>
