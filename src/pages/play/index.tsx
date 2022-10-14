@@ -91,7 +91,7 @@ const Play = () => {
     const publicKey = wallet.publicKey;
 		if (!publicKey) {
       console.log("No key associated with the wallet");
-			throw new Error("No key associated with the wallet");
+			return;
 		}
 
     const encoder = new TextEncoder();
@@ -99,10 +99,10 @@ const Play = () => {
 
     if (!wallet.signMessage) {
       console.log("Unable to sign using this wallet");
-			throw new Error("Unable to sign using this wallet");
+			return;
 		}
 
-		const signed = wallet.signMessage(encoder.encode(message));
+		const signed = await wallet.signMessage(encoder.encode(message));
     console.log('signed', signed)
   };
 
@@ -121,14 +121,14 @@ const Play = () => {
         <Container maxWidth="lg">
           <Card>
             <CardContent sx={{ display: "flex", justifyContent: "center" }}>
-              {/* <Unity
+              <Unity
                 unityProvider={unityContext.unityProvider}
                 style={{
                   height: 540,
                   width: 950,
                   background: "#555",
                 }}
-              /> */}
+              />
             </CardContent>
           </Card>
           <Card sx={{ mt: 3 }}>
