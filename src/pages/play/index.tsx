@@ -21,7 +21,7 @@ const Play = () => {
   const unityContext = useUnityContext(unityConfig);
   const { sendMessage, addEventListener, removeEventListener } = unityContext;
   const [displayBanner, setDisplayBanner] = useState(true);
-  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [isConnected, setIsConnected] = useState(socket?.connected);
 
   useEffect(() => {
     // Restore the persistent state from local/session storage
@@ -32,31 +32,35 @@ const Play = () => {
   }, []);
 
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("connected");
-      setIsConnected(true);
-    });
+    if (socket) {
+      socket.on("connect", () => {
+        console.log("connected");
+        setIsConnected(true);
+      });
 
-    socket.on("disconnect", () => {
-      console.log("disconnected");
-      setIsConnected(false);
-    });
+      socket.on("disconnect", () => {
+        console.log("disconnected");
+        setIsConnected(false);
+      });
 
-    socket.on("PONG", () => {
-      console.log("PONG");
-    });
+      socket.on("PONG", () => {
+        console.log("PONG");
+      });
 
-    socket.connect();
+      socket.connect();
 
-    return () => {
-      socket.off("connect");
-      socket.off("disconnect");
-      socket.off("PONG");
-    };
-  }, []);
+      return () => {
+        socket.off("connect");
+        socket.off("disconnect");
+        socket.off("PONG");
+      };
+    }
+  }, [socket]);
 
   const sendPing = () => {
-    socket.emit("PING");
+    if (socket && isConnected) {
+      socket.emit("PING");
+    }
   };
 
   useInterval(() => {
@@ -64,46 +68,31 @@ const Play = () => {
   }, 5000);
 
   const handleJoin = async () => {
-    /*// The data to format
-    const dappUrl = "Pixltez.app";
-    const ISO8601formatedTimestamp = new Date().toISOString();
-    const input = "Hello world!";
+    try {
+      const publicKey = wallet.publicKey;
+      if (!publicKey) {
+        console.log("No key associated with the wallet");
+        return;
+      }
 
-    // The full string
-    const formattedInput: string = [
-      "Tezos Signed Message:",
-      dappUrl,
-      ISO8601formatedTimestamp,
-      input,
-    ].join(" ");
+      const encoder = new TextEncoder();
+      const message = JSON.stringify({
+        message: "Join Room",
+        address: publicKey.toString(),
+        date: new Date(),
+      });
 
-    const bytes = char2Bytes(formattedInput);
-    const payloadBytes = "05" + "0100" + char2Bytes("" + bytes.length) + bytes;
+      if (!wallet.signMessage) {
+        console.log("Unable to sign using this wallet");
+        return;
+      }
 
-    const payload: RequestSignPayloadInput = {
-      signingType: SigningType.MICHELINE,
-      payload: payloadBytes,
-      sourceAddress: walletAddress,
-    };
-    const signedPayload = await requestSignPayload(payload);
-    console.log("signedPayload", signedPayload);*/
-
-    const publicKey = wallet.publicKey;
-		if (!publicKey) {
-      console.log("No key associated with the wallet");
-			return;
-		}
-
-    const encoder = new TextEncoder();
-		const message = publicKey.toString();
-
-    if (!wallet.signMessage) {
-      console.log("Unable to sign using this wallet");
-			return;
-		}
-
-		const signed = await wallet.signMessage(encoder.encode(message));
-    console.log('signed', signed)
+      const signed = await wallet.signMessage(encoder.encode(message));
+      console.log("signed", signed);
+      
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
